@@ -24,6 +24,10 @@ int handler(void* config, const char* section, const char* name, const char* val
     {
         pconfig->queueId = atoi(value);
     }
+    else if (MATCH("beeper", "messagetypeid"))
+    {
+        pconfig->messageTypeId = atoi(value);
+    }
 
     return 1;
 }

@@ -75,11 +75,13 @@ void loop()
 
 		printf("\n");
 
-		if (data.data_type == TYPE_INTEGER)
+		if (data.data_type == config->messageTypeId)
 		{
             int iValue = 0;
 			memcpy(&iValue, data.data_buff, sizeof(int));
-			printf("Interpreted as integer: %d\n", iValue);
+            printf("Beep Duration: %d ms\n", iValue);
+
+            // TODO: beep for 'iValue' ms.
 		}
     }
 
@@ -118,8 +120,9 @@ void show_config(configuration* config)
 {
     printf("Config loaded from '%s':\n", CONFIG_FILE);
 
-    printf("  Beeper Pin: %d \n", config->beeperPin);
-    printf("Queue Number: %d \n", config->queueId);
+    printf("     Beeper Pin: %d \n", config->beeperPin);
+    printf("       Queue ID: %d \n", config->queueId);
+    printf("Message Type ID: %d \n", config->messageTypeId);
 }
 
 int main(int argc, char* argv[])

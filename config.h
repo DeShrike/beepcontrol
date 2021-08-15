@@ -9,6 +9,7 @@ typedef struct
 {
     int beeperPin;
     int queueId;
+    int messageTypeId;
 } configuration;
 
 void free_config(configuration* config);
