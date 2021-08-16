@@ -6,8 +6,6 @@ Uses Message Queue based Interprocess Communication (IPC)
 
 ## Dependencies
 
-- Python >= 3.6
-- sysv_ipc (python package)
 - WiringPi (C library)
 
 ## Build & Install
@@ -31,11 +29,11 @@ queueid=1234
 messagetypeid=101
 ```
 
-queueid: The ID of the Message Queue to use. An integer > 0.
+`queueid`: The ID of the Message Queue to use. An integer > 0.
 
-messagetypeid: The ID of the message to use. An integer > 0.
+`messagetypeid`: The ID of the message to use. An integer > 0.
 
-pin: the pin number where the beeper is connected. (Broadcom numbering (BCM))
+`pin`: the pin number where the beeper is connected. (Broadcom numbering (BCM))
 
 Should be one of the following:
 
@@ -64,8 +62,6 @@ Should be one of the following:
 #define  MESSAGETYPEID   101	// See messagetypeid in configuration
 #define  BUFF_SIZE   16
 
-#include "type_definitions.h"
-
 typedef struct
 {
 	long  data_type;
@@ -92,6 +88,8 @@ if (-1 == msgsnd(msqid, &data, sizeof(t_data) - sizeof(long), 0))
 ```
 
 ### From Python
+
+Python >= 3.6
 
 ```
 import sysv_ipc
