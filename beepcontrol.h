@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define  BUFF_SIZE   16
+#define  BUFF_SIZE   32
 
 typedef struct
 {

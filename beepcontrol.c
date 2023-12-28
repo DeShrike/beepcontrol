@@ -60,7 +60,8 @@ void loop()
 		if (-1 == msgrcv(msqid, &data, sizeof(t_data) - sizeof(long), 0, IPC_NOWAIT))
 		{
 			perror("msgrcv() failed");
-			break;
+            delayMilliseconds(STEPDELAY);
+			continue;
 		}
 
 		printf("\n");
@@ -78,14 +79,19 @@ void loop()
 		if (data.data_type == config->messageTypeId)
 		{
             int iValue = 0;
-			memcpy(&iValue, data.data_buff, sizeof(int));
-            printf("Beep Duration: %d ms\n", iValue);
+            int iDuration = 0;
+			memcpy(&iDuration, data.data_buff, sizeof(int));
+			memcpy(&iValue, data.data_buff + sizeof(int), sizeof(int));
+            printf("Beep Duration: %d ms\n", iDuration);
+            printf("Beep Value   : %d\n", iValue);
 
-            // TODO: beep for 'iValue' ms.
+            pwmWrite(config->beeperPin, iValue);
+            delayMilliseconds(iDuration);
+            pwmWrite(config->beeperPin, 0);
 		}
-    }
 
-    delayMilliseconds(STEPDELAY);
+        delayMilliseconds(STEPDELAY);
+    }
 }
 
 void start()

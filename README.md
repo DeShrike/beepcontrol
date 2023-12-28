@@ -60,7 +60,7 @@ Should be one of the following:
 
 #define  QUEUEID   1234			// See queueid in configuration
 #define  MESSAGETYPEID   101	// See messagetypeid in configuration
-#define  BUFF_SIZE   16
+#define  BUFF_SIZE   32         // 2 ints
 
 typedef struct
 {
@@ -77,9 +77,11 @@ if (-1 == (msqid = msgget((key_t)QUEUEID, IPC_CREAT | 0666)))
 	exit(1);
 }
 
-int value = 100;	// beep duration in ms
+int duration = 100;	// beep duration in ms
+int value = 250;	// freq
 data.data_type = MESSAGETYPEID;
-memcpy(data.data_buff, &value, sizeof(int));
+memcpy(data.data_buff, &duration, sizeof(int));
+memcpy(data.data_buff + sizeof(int), &value, sizeof(int));
 if (-1 == msgsnd(msqid, &data, sizeof(t_data) - sizeof(long), 0))
 {
 	perror("msgsnd() failed");
@@ -93,14 +95,16 @@ Python >= 3.6
 
 ```
 import sysv_ipc
+import struct
 
 queue_id = 1234				# See queueid in configuration
 message_type_id = 101		# See messagetypeid in configuration
 
 mq = sysv_ipc.MessageQueue(queue_id, sysv_ipc.IPC_CREAT)
 
-value = 100					# beep duration in ms
+duration = 100					# beep duration in ms
+value = 100					# freq
 
-bytearray1 = struct.pack("i", value)
+bytearray1 = struct.pack("ii", duration, value)
 mq.send(bytearray1, True, type=message_type_id)
 ```

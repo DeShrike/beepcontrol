@@ -22,7 +22,7 @@ ini.o: ini.c ini.h
 	$(CC) -c $(CFLAGS) ini.c
 
 clean:
-	rm *.o
+	rm -v *.o
 
 install: beepcontrol beepcontrol.service
 	sudo cp beepcontrol /usr/bin
